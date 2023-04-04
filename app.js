@@ -1,11 +1,24 @@
 
 const port = process.env.PORT || 3001;
 
-const socks5 = require('node-socks5-server');
+var http = require('http'),
+    httpProxy = require('http-proxy');
 
-const server = socks5.createServer();
+//
+// Create a proxy server with custom application logic
+//
+var proxy = httpProxy.createProxyServer({});
+
+//
+// Create your custom server and just call `proxy.web()` to proxy
+// a web request to the target passed in the options
+// also you can use `proxy.ws()` to proxy a websockets request
+//
+var server = http.createServer(function(req, res) {
+  // You can define here your custom logic to handle the request
+  // and then proxy the request.
+  proxy.web(req, res, { target: 'https://www.pathofexile.com' });
+});
+
+console.log("listening on port " + port);
 server.listen(port);
-
-console.log('Started!');
-
-
