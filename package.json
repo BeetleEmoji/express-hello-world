@@ -11,9 +11,9 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "http-proxy": "^1.18.1",
-    "node-socks5-server": "^1.1.0"
+    "http-server": "^14.1.1",
+    "node-socks5-server": "^1.1.0",
+    "tcp-over-websockets": "^2.0.0"
   },
   "engines": {
     "node": ">=14"
