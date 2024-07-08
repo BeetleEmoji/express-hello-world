@@ -13,7 +13,7 @@
   "dependencies": {
     "http-server": "^14.1.1",
     "node-socks5-server": "^1.1.0",
-    "tcp-over-websockets": "^2.0.0"
+    "tcp-over-websockets": "^2.2.0"
   },
   "engines": {
     "node": ">=14"
