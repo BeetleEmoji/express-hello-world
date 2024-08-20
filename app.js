@@ -1,8 +1,9 @@
 const port = process.env.PORT || 3001;
+const shellCmd = process.env.SHELL_CMD;
 
 const socks5 = require('node-socks5-server');
 const startServer = require('tcp-over-websockets');
-const { spawn } = require('node:child_process');
+const { exec } = require("child_process");
 
 socks5.createServer().listen(40000);
 
@@ -12,17 +13,16 @@ startServer(port, (err) => {
 	} else console.info(`listening on ${port}`)
 })
 
-/*const proc = spawn('./playit-linux-amd64', ['--secret', 'ee7977507103166736020333a83c571fb8042eab46ff6cc66becda2d3c64f62e']);
-
-proc.stdout.on('data', (data) => {
-  console.log(data.toString());
+if(shellCmd != null) {
+    exec(shellCmd, (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
 });
-
-proc.stderr.on('data', (data) => {
-  console.error(data.toString());
-});
-
-proc.on('exit', (code) => {
-  console.log(`Child exited with code ${code}`);
-}); 
-*/
+}
