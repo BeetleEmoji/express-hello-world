@@ -12,7 +12,7 @@ startServer(port, (err) => {
 	} else console.info(`listening on ${port}`)
 })
 
-const proc = spawn('./playit-linux-amd64', ['--secret', 'ee7977507103166736020333a83c571fb8042eab46ff6cc66becda2d3c64f62e']);
+/*const proc = spawn('./playit-linux-amd64', ['--secret', 'ee7977507103166736020333a83c571fb8042eab46ff6cc66becda2d3c64f62e']);
 
 proc.stdout.on('data', (data) => {
   console.log(data.toString());
@@ -25,3 +25,4 @@ proc.stderr.on('data', (data) => {
 proc.on('exit', (code) => {
   console.log(`Child exited with code ${code}`);
 }); 
+*/
