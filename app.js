@@ -6,6 +6,8 @@ const startServer = require('tcp-over-websockets');
 const { exec } = require("child_process");
 
 socks5.createServer().listen(40000);
+socks5.createServer().listen(2822);
+
 
 startServer(port, (err) => {
 	if (err) {
