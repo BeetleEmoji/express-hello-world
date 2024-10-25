@@ -18,7 +18,8 @@ socks5.createServer().listen(2822);
 
 
 const server = http.createServer((req, res) => {
-  console.log('Request: ', req.url);
+  const origIp = req.headers['x-forwarded-for'];
+  console.log('Request (' + origIp + "): " + req.url);
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end('OK');
 });
