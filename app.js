@@ -2,17 +2,30 @@ const port = process.env.PORT || 3001;
 const shellCmd = process.env.SHELL_CMD;
 
 const socks5 = require('node-socks5-server');
+const http = require('http');
 const startServer = require('tcp-over-websockets');
 const { exec } = require("child_process");
 
 socks5.createServer().listen(40000);
 socks5.createServer().listen(2822);
 
-startServer(port, (err) => {
+/*startServer(port, (err) => {
 	if (err) {
 		console.error(err)
 	} else console.info(`listening on ${port}`)
-})
+})*/
+
+
+
+const server = http.createServer((req, res) => {
+  console.log('Request received:', req.url);
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('OK');
+});
+
+server.listen(port, () => {
+  console.log('Server listening on port ' + port);  
+});
 
 function executeCommandWithRestart(command, restartDelay = 5000) {
   let isRunning = false;
