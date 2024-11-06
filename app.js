@@ -21,9 +21,7 @@ const server = http.createServer((req, res) => {
     const cpuUsage = os.loadavg()[0] / os.cpus().length * 100; // Average load over 1 minute
 
     const stats = {
-      freeMemory: freeMemory / 1024 / 1024,
-      totalMemory: totalMemory / 1024 / 1024,
-      usedMemory: usedMemory / 1024 / 1024,
+      memoryUsage: process.memoryUsage() / 1024 / 1024,
       cpuUsage: cpuUsage.toFixed(2)
     };
 
