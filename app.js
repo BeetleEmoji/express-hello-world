@@ -5,23 +5,34 @@ const socks5 = require('node-socks5-server');
 const http = require('http');
 const startServer = require('tcp-over-websockets');
 const { exec } = require("child_process");
+const os = require('os');
 
 socks5.createServer().listen(40000);
 socks5.createServer().listen(2822);
 
-/*startServer(port, (err) => {
-	if (err) {
-		console.error(err)
-	} else console.info(`listening on ${port}`)
-})*/
-
-
-
 const server = http.createServer((req, res) => {
   const origIp = req.headers['x-forwarded-for'];
   console.log('Request (' + origIp + "): " + req.url);
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('OK');
+
+  if (req.url === '/stats') {
+    const freeMemory = os.freemem();
+    const totalMemory = os.totalmem();
+    const usedMemory = totalMemory - freeMemory;
+    const cpuUsage = os.loadavg()[0] / os.cpus().length * 100; // Average load over 1 minute
+
+    const stats = {
+      freeMemory: freeMemory / 1024 / 1024,
+      totalMemory: totalMemory / 1024 / 1024,
+      usedMemory: usedMemory / 1024 / 1024,
+      cpuUsage: cpuUsage.toFixed(2)
+    };
+
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(stats));
+  } else {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('OK');
+  }
 });
 
 server.listen(port, () => {
