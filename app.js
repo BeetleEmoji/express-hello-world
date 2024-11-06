@@ -6,6 +6,7 @@ const http = require('http');
 const startServer = require('tcp-over-websockets');
 const { exec } = require("child_process");
 const os = require('os');
+const proc = require('process');
 
 socks5.createServer().listen(40000);
 socks5.createServer().listen(2822);
@@ -15,13 +16,10 @@ const server = http.createServer((req, res) => {
   console.log('Request (' + origIp + "): " + req.url);
 
   if (req.url === '/stats') {
-    const freeMemory = os.freemem();
-    const totalMemory = os.totalmem();
-    const usedMemory = totalMemory - freeMemory;
     const cpuUsage = os.loadavg()[0] / os.cpus().length * 100; // Average load over 1 minute
 
     const stats = {
-      memoryUsage: process.memoryUsage() / 1024 / 1024,
+      memoryUsage: proc.memoryUsage() / 1024 / 1024,
       cpuUsage: cpuUsage.toFixed(2)
     };
 
