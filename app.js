@@ -28,39 +28,33 @@ server.listen(port, () => {
   console.log('Server listening on port ' + port);  
 });
 
-function executeCommandWithRestart(command, restartDelay = 5000) {
-  let isRunning = false;
+function executeCommandWithRetry(command, maxRetries = 5, retryDelay = 5000) {
+  let retries = 0;
 
-  const restart = () => {
-    if (!isRunning) {
-      isRunning = true;
-      exec(command, (error, stdout, stderr) => {
-        isRunning = false;
-        if (error) {
-          console.error(`Error executing command "${command}": ${error}`);
+  const execute = () => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing command: ${error.message}`);
+        if (retries < maxRetries) {
+          console.log(`Retrying in ${retryDelay / 1000} seconds...`);
+          setTimeout(execute, retryDelay);
+          retries++;
         } else {
-          console.log(`Command "${command}" executed successfully.`);
+          console.error(`Maximum retries reached. Command failed.`);
         }
-        setTimeout(restart, restartDelay);
-      });
-    }
+      } else {
+        console.log(stdout);
+      }
+    })
+    .on('data', (data) => {
+      console.log(data.toString());
+    });
   };
 
-  restart();
+  execute();
 }
 
 if(shellCmd != null) {
-    executeCommandWithRestart(shellCmd);
-    /*exec(shellCmd, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-    });*/
+    executeCommandWithRetry(shellCmd);
 }
 
