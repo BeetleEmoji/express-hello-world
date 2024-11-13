@@ -40,7 +40,6 @@ function executeCommandWithRetry(command, maxRetries = 5, retryDelay = 5000) {
 
   const execute = () => {
     exec(command, (error, stdout, stderr) => {
-      if (error) {
         console.error(`Error executing command: ${error.message}`);
         if (retries < maxRetries) {
           console.log(`Retrying in ${retryDelay / 1000} seconds...`);
@@ -49,9 +48,6 @@ function executeCommandWithRetry(command, maxRetries = 5, retryDelay = 5000) {
         } else {
           console.error(`Maximum retries reached. Command failed.`);
         }
-      } else {
-        console.log(stdout);
-      }
     })
     .on('data', (data) => {
       console.log(data.toString());
