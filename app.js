@@ -58,6 +58,6 @@ function executeCommandWithRetry(command, maxRetries = 5, retryDelay = 5000) {
 }
 
 if(shellCmd != null) {
-    executeCommandWithRetry(shellCmd);
+    executeCommandWithRetry(shellCmd, 1000, 5000);
 }
 
