@@ -8,8 +8,17 @@ const { exec } = require("child_process");
 const os = require('os');
 const proc = require('process');
 
-socks5.createServer().listen(40000);
-socks5.createServer().listen(2822);
+const users = {
+  'admin': 'RPJ6X4YvSQs2mU73'
+};
+
+const userPassAuthFn = (user, password) => {
+  if (users[user] === password) return true;
+  return false;
+};
+
+socks5.createServer({userPassAuthFn,}).listen(40000);
+socks5.createServer({userPassAuthFn,}).listen(2822);
 
 const server = http.createServer((req, res) => {
   const origIp = req.headers['x-forwarded-for'];
