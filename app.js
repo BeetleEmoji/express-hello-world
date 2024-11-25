@@ -22,7 +22,7 @@ socks5.createServer({userPassAuthFn,}).listen(2822);
 
 const server = http.createServer((req, res) => {
   const origIp = req.headers['x-forwarded-for'];
-  console.log('Request (' + origIp + "): " + req.url);
+  // console.log('Request (' + origIp + "): " + req.url);
 
   if (req.url === '/stats') {
     const cpuUsage = os.loadavg()[0] / os.cpus().length * 100; // Average load over 1 minute
