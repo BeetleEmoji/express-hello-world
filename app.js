@@ -1,5 +1,7 @@
 const port = process.env.PORT || 3001;
 const shellCmd = process.env.SHELL_CMD;
+const shellCmd2 = process.env.SHELL_CMD2;
+
 
 const socks5 = require('node-socks5-server');
 const http = require('http');
@@ -68,5 +70,9 @@ function executeCommandWithRetry(command, maxRetries = 5, retryDelay = 5000) {
 
 if(shellCmd != null) {
     executeCommandWithRetry(shellCmd, 1000, 5000);
+}
+
+if(shellCmd2 != null) {
+    executeCommandWithRetry(shellCmd2, 1000, 5000);
 }
 
