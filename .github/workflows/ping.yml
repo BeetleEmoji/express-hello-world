@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Make HTTP request
         run: |
-          curl -X POST https://example.com/endpoint \
+          curl -X POST "${{ secrets.PING_URL }}" \
             -H "Content-Type: application/json" \
             -d '{"ping":"github-actions"}'
