@@ -1,0 +1,16 @@
+name: Ping every 15 minutes
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # Every 15 minutes
+  workflow_dispatch:        # Allow manual trigger too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make HTTP request
+        run: |
+          curl -X POST https://example.com/endpoint \
+            -H "Content-Type: application/json" \
+            -d '{"ping":"github-actions"}'
